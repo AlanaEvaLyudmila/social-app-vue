@@ -3,7 +3,7 @@
       <input type="text" 
        :value="modelValue"
         @input="emit('update:modelValue', $event.target.value)"
-      placeholder="Что у вас нового?">
+      placeholder="Что у вас нового???">
       <button @click="emit('add')">Добавить</button>
     </div>
 </template>

@@ -1,8 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import FeedView from '../views/FeedView.vue'
+
+const routes =[
+  {
+    path:'/',
+    name:'feed',
+    component:FeedView
+  }
+]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  history: createWebHistory(),
+  routes
 })
 
 export default router
