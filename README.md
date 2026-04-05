@@ -1,38 +1,79 @@
-# social-app-vue
+# Домашнее задание
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+1. Создать fork этого репозитория в своем github (https://doka.guide/recipes/github-new-fork/)
+2. Склонировать свой репозиторий на локальный компьютер
+3. Выполнить первое задание
+4. Локально закомитить (commit) выполненное задание
+5. Запушить (push) решение в свой github репозиторий
+6. Выполнить для всех заданий пункты с 4 по 6 (сколько заданий, столько коммитов)
+7. Отправить репозиторий на ревью преподавателю с помощью pull request для получения оценки
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Recommended Browser Setup
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-## Customize configuration
+## 1. Расширенный функционал постов
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Для каждого поста необходимо реализовать три возможности:
 
-## Project Setup
+- комментарии
+- лайки (переключатель)
+- редактирование поста
 
-```sh
-npm install
-```
+### Комментарии
 
-### Compile and Hot-Reload for Development
+Добавьте функционал комментариев под каждым постом:
 
-```sh
-npm run dev
-```
+- список комментариев под постом
+- поле для ввода нового комментария
+- кнопку отправки комментария
 
-### Compile and Minify for Production
+### Лайки
 
-```sh
-npm run build
-```
+Реализуйте лайк, который работает как переключатель:
+
+- если пост ещё **не лайкнут** — лайк ставится  
+- если пост **уже лайкнут** — лайк снимается  
+
+### Редактирование поста
+
+Добавьте кнопку **«Редактировать»**.
+
+При нажатии пользователь должен иметь возможность изменить текст поста.  
+После сохранения текст поста должен обновляться.
+
+---
+
+## 2. Страница профиля
+
+Создайте новый view: `src/views/ProfileView.vue`.
+
+На странице профиля выведите:
+
+- имя пользователя
+- краткую информацию о пользователе
+- количество постов
+- список постов этого пользователя
+
+---
+
+## 3. Новый маршрут
+
+В файле роутера добавьте новый путь: `/profile`.
+
+Этот путь должен открывать страницу профиля.
+
+---
+
+## 4. Навигация между страницами
+
+В приложении должна появиться навигация:
+
+- **Лента**
+- **Профиль**
+
+Для навигации используйте:
+
+- `RouterLink`
+- `RouterView`
+
