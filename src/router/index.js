@@ -14,7 +14,11 @@ const routes =[
     name:'stats',
     component:StatsView
   },
-  
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
+  }
 ]
 
 const router = createRouter({
