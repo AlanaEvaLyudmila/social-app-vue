@@ -51,9 +51,10 @@
       id: Date.now(),
       text:newPost.value,
       likes:0,
-      comments: []
+      comments: [],
+      author: 'Профиль'
     })
-
+    
     newPost.value = ''
   }
 
