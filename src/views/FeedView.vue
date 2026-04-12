@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-  import {ref, watch,onMounted} from 'vue'
+  import {ref, watch, onMounted} from 'vue'
   import PostForm from '../components/PostForm.vue'
   import PostItem from '../components/PostItem.vue'
 
@@ -30,10 +30,14 @@
     const savedPosts = localStorage.getItem('posts');
     if(savedPosts){
       posts.value = JSON.parse(savedPosts)
+      posts.value.forEach(post => {
+        if(!post.author) post.author = 'Профиль'
+        if(!post.comments) post.comments = []
+      })
     }
     else{
       posts.value = [
-        {id:1, text:"Мой первый пост",likes:0, comments:[]}
+        {id:1, text:"Мой первый пост",likes:0, comments:[], author: 'Профиль'}
       ]
     }
   })

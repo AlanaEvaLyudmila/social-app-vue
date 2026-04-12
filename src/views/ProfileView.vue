@@ -30,57 +30,78 @@
 </template>
 
 <script setup>
-    import {ref, computed, onMounted, handleError} from 'vue'
+    import { ref, watch } from 'vue'
+    import { useRoute } from 'vue-router'
     import PostItem from '@/components/PostItem.vue';
+
+    const route = useRoute()
 
     const userName = "Профиль"
     const userBio = 'Обо мне'
 
-    const posts = ref([])
+    const userPosts = ref([])
 
-    onMounted(() => {
-        const savedPosts = localStorage.getItem('posts')
-        posts.value = savedPosts ? JSON.parse(savedPosts) : []
-    })
+    function loadPosts() {
+        const saved = localStorage.getItem('posts')
+        const allPosts = saved ? JSON.parse(saved) : []
+        userPosts.value = allPosts.filter(post => post.author === userName)
+    }
 
-    const userPosts = computed(() => {
-        return posts.value.filter(posts => post.author === userName)
-    })
+    loadPosts()
+
+    watch(
+        () => route.path,
+        (newPath) => {
+            if (newPath === '/profile') {
+                loadPosts()
+            }
+        },
+        { immediate: true }
+    )
 
     function handleLike(postId) {
-        const targetPost = posts.value.find(p => p.id === postId)
-        if (targetPost) {
-            targetPost.likes = targetPost.likes === 0 ? 1 : 0
-            saveToLocalStorage()
+        const saved = localStorage.getItem('posts')
+        const allPosts = saved ? JSON.parse(saved) : []
+        const post = allPosts.find(p => p.id === postId)
+        if (post) {
+            post.likes = post.likes > 0 ? post.likes - 1 : post.likes + 1;
+            saveAndReload(allPosts)
         }
     }
 
-    function handleDelete(params) {
-        posts.value = posts.value.filter(p => p.id !== postId)
-        saveToLocalStorage()
+    function handleDelete(postId) {
+        const saved = localStorage.getItem('posts')
+        let allPosts = saved ? JSON.parse(saved) : []
+        allPosts = allPosts.filter(p => p.id !== postId)
+        saveAndReload(allPosts)
     }
 
-    function handleUpdate(params) {
-        const targetPost = posts.value.find(p => p.id === id)
-        if (targetPost) {
-            targetPost.Text = text
-            saveToLocalStorage()
+    function handleUpdate({ id, text }) {
+        const saved = localStorage.getItem('posts')
+        const allPosts = saved ? JSON.parse(saved) : []
+        const post = allPosts.find(p => p.id === id)
+        if (post) {
+            post.text = text
+            saveAndReload(allPosts)
         }
     }
 
-    function handleAddComment(params) {
-        const targetPost = posts.value.find(p => p.id === postId)
-        if (targetPost) {
-            if (!targetPost.comments) {
-                targetPost.comments = []
+    function handleAddComment({ postId, comment }) {
+        const saved = localStorage.getItem('posts')
+        const allPosts = saved ? JSON.parse(saved) : []
+        const post = allPosts.find(p => p.id === postId)
+        if (post) {
+            if (!post.comments) {
+                post.comments = []
             }
-            targetPost.comments.push(comment)
-            saveToLocalStorage()
+            post.comments.push(comment)
+            saveAndReload(allPosts)
         }
     }
 
-    function saveToLocalStorage(params) {
-        localStorage.setItem('posts', JSON.stringify(posts.value))
+    function saveAndReload(updatedPosts) {
+        localStorage.setItem('posts', JSON.stringify(updatedPosts))
+        loadPosts()
     }
 
 </script>
