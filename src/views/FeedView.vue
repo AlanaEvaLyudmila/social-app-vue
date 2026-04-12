@@ -24,6 +24,7 @@
 
   const posts = ref([])
 
+  
   onMounted(()=>{
     const savedPosts = localStorage.getItem('posts');
     if(savedPosts){
@@ -49,7 +50,8 @@
       id: Date.now(),
       text:newPost.value,
       likes:0,
-      comments:[]
+      comments:[],
+      userId: 1
     })
 
     newPost.value = ''
