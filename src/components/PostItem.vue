@@ -75,3 +75,48 @@ function addComment() {
   }
 }
 </script>
+
+<style scoped>
+.post{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.post p{
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+button{
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  background:#f1f5f9;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#dbeafe;
+}
+
+.comments{
+  margin-top:15px;
+}
+
+.comments input{
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+</style>

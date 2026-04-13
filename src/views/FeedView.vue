@@ -84,4 +84,14 @@
   padding: 14px;
   border-radius: 10px;
 }
+.feed h1{
+  margin-bottom:25px;
+  font-size:36px;
+}
+
+.feed{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
 </style>
