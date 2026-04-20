@@ -12,6 +12,7 @@
     :post="post"
     @like="toggleLike"
     @delete="deletePost"
+    @update="updatePost" 
     />
   </div>
 </template>
@@ -21,13 +22,16 @@
   import PostItem from '../components/PostItem.vue'
 
   const newPost = ref('')
-
   const posts = ref([])
 
   onMounted(()=>{
     const savedPosts = localStorage.getItem('posts');
     if(savedPosts){
       posts.value = JSON.parse(savedPosts)
+      posts.value.forEach(post => {
+      if (post.isLiked === undefined) post.isLiked = false;
+      if (!post.comments) post.comments = []
+    });
     }
     else{
       posts.value = [
@@ -48,22 +52,40 @@
     posts.value.unshift({
       id: Date.now(),
       text:newPost.value,
-      likes:0
+      likes:0,
+      isLiked:false,
+      comments:[]
     })
 
     newPost.value = ''
   }
 
-  function toggleLike(postId){
+  function toggleLike(postId){ 
+
     const post = posts.value.find(post => post.id === postId);
-    if(post) post.likes++;
+    if(post) {
+     if (post.isLiked === undefined) {
+      post.isLiked = false;  
+    }
+    {
+      if (post.isLiked===false) 
+      {post.isLiked=true; post.likes++;}
+      else if (post.isLiked===true) {post.isLiked=false; post.likes--;}
+
+    }
+    }
   }
 
   function deletePost(postId){
     posts.value = posts.value.filter(post => post.id !== postId)
   }
 
-
+function updatePost(postId, newText) {
+  const post = posts.value.find(p => p.id === postId)
+  if (post) {
+    post.text = newText
+  }
+}
 </script>
 
 <style scoped>
