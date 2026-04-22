@@ -12,6 +12,7 @@
     :post="post"
     @like="toggleLike"
     @delete="deletePost"
+    @edit="editPost"
     />
   </div>
 </template>
@@ -25,16 +26,23 @@
   const posts = ref([])
 
   onMounted(()=>{
-    const savedPosts = localStorage.getItem('posts');
-    if(savedPosts){
-      posts.value = JSON.parse(savedPosts)
-    }
-    else{
-      posts.value = [
-        {id:1, text:"Мой первый пост",likes:0}
-      ]
-    }
-  })
+  const savedPosts = localStorage.getItem('posts');
+
+  if(savedPosts){
+    posts.value = JSON.parse(savedPosts)
+
+    posts.value.forEach(post => {
+      if(post.liked === undefined){
+        post.liked = false
+      }
+    })
+  }
+  else{
+    posts.value = [
+      {id:1, text:"Мой первый пост", likes:0, liked:false}
+    ]
+  }
+})
 
   watch(
     posts, (newPost) =>{
@@ -45,24 +53,39 @@
 
 
   function addPost(){
-    posts.value.unshift({
-      id: Date.now(),
-      text:newPost.value,
-      likes:0
-    })
-
-    newPost.value = ''
-  }
+  posts.value.unshift({
+    id: Date.now(),
+    text: newPost.value,
+    likes: 0,
+    liked: false
+  })
+}
 
   function toggleLike(postId){
-    const post = posts.value.find(post => post.id === postId);
-    if(post) post.likes++;
+    const post = posts.value.find(post => post.id === postId)
+
+    if(!post) return
+
+    if(post.liked){
+      post.likes--
+    } else {
+      post.likes++
+    }
+
+    post.liked = !post.liked
   }
 
   function deletePost(postId){
     posts.value = posts.value.filter(post => post.id !== postId)
   }
 
+  function editPost(data){
+  const post = posts.value.find(p => p.id === data.id)
+
+  if(post){
+    post.text = data.text
+  }
+  }
 
 </script>
 
