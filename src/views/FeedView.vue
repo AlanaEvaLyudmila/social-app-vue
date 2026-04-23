@@ -14,56 +14,57 @@
   </div>
 </template>
 <script setup>
-import { ref, watch, onMounted } from 'vue'
-import PostForm from '../components/PostForm.vue'
-import PostItem from '../components/PostItem.vue'
+import { ref, watch, onMounted } from 'vue';
+import PostForm from '../components/PostForm.vue';
+import PostItem from '../components/PostItem.vue';
 
-const newPost = ref('')
+const newPost = ref('');
 
-const posts = ref([])
+const posts = ref([]);
 
 onMounted(() => {
-  const savedPosts = localStorage.getItem('posts')
+  const savedPosts = localStorage.getItem('posts');
   if (savedPosts) {
-    posts.value = JSON.parse(savedPosts)
+    posts.value = JSON.parse(savedPosts);
   } else {
-    posts.value = [{ id: 1, text: 'Мой первый пост', likes: 0 }]
+    posts.value = [{ id: 1, text: 'Мой первый пост', likes: 0, comments: [] }];
   }
-})
+});
 
 watch(
   posts,
   (newPost) => {
-    localStorage.setItem('posts', JSON.stringify(newPost))
+    localStorage.setItem('posts', JSON.stringify(newPost));
   },
   { deep: true },
-)
+);
 
 function addPost() {
   posts.value.unshift({
     id: Date.now(),
     text: newPost.value,
     likes: 0,
-  })
+    comments: [],
+  });
 
-  newPost.value = ''
+  newPost.value = '';
 }
 
 function toggleLike(postId) {
-  const post = posts.value.find((post) => post.id === postId)
+  const post = posts.value.find((post) => post.id === postId);
   if (post) {
     if (post.liked) {
-      post.likes--
-      post.liked = false
+      post.likes--;
+      post.liked = false;
     } else {
-      post.likes++
-      post.liked = true
+      post.likes++;
+      post.liked = true;
     }
   }
 }
 
 function deletePost(postId) {
-  posts.value = posts.value.filter((post) => post.id !== postId)
+  posts.value = posts.value.filter((post) => post.id !== postId);
 }
 </script>
 
@@ -73,7 +74,8 @@ function deletePost(postId) {
   width: 40%;
 
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
 
   border: 1px solid black;
   padding: 14px;
