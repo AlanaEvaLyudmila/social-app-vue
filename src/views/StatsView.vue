@@ -5,11 +5,11 @@
         <p>Всего лайков:{{totalLikes}} </p>
         <p>Среднее количество лайков:{{averageLikes}} </p>
 
-    <div v-if="mostPopularPost">
-        <h2>Самый популярный пост</h2>
-        <p>{{mostPopularPost.text}}</p>
-        <p>Лайков: {{mostPopularPost.likes}}</p>
-    </div>
+        <div v-if="mostPopularPost">
+            <h2>Самый популярный пост</h2>
+            <p>{{mostPopularPost.text}}</p>
+            <p>Лайков: {{mostPopularPost.likes}}</p>
+        </div>
 
     </div>
 </template>
