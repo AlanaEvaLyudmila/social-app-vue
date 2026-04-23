@@ -56,18 +56,32 @@
 
   function toggleLike(postId){
     const post = posts.value.find(post => post.id === postId);
-    if(post) post.likes++;
+    if (post) {
+      if (post.liked) {
+        post.likes--;
+        post.liked = false;
+      } else {
+        post.likes++;
+        post.liked = true
+      }
+    }
   }
 
-  function deletePost(postId){
-    posts.value = posts.value.filter(post => post.id !== postId)
-  }
+  function deletePost(postId) {
+  posts.value = posts.value.filter((post) => post.id !== postId)
+}
 
 
 </script>
 
 <style scoped>
 .post{
+  margin-top: 10px;
+  width: 40%;
+
+  display: flex;
+  justify-content: space-between;
+
   border: 1px solid black;
   padding: 14px;
   border-radius: 10px;
