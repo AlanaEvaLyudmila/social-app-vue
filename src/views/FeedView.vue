@@ -1,81 +1,80 @@
 <template>
   <div class="feed">
     <h1>Социальная сеть</h1>
-    <PostForm v-model="newPost" @add="addPost"/>
-    <div v-if="posts.length===0">
-      Пока нет постов
-    </div>
+    <PostForm v-model="newPost" @add="addPost" />
+    <div v-if="posts.length === 0">Пока нет постов</div>
 
     <PostItem
-    v-for="post in posts"
-    :key="post.id"
-    :post="post"
-    @like="toggleLike"
-    @delete="deletePost"
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+      @like="toggleLike"
+      @delete="deletePost"
     />
   </div>
 </template>
 <script setup>
-  import {ref, watch,onMounted} from 'vue'
-  import PostForm from '../components/PostForm.vue'
-  import PostItem from '../components/PostItem.vue'
+import { ref, watch, onMounted } from 'vue'
+import PostForm from '../components/PostForm.vue'
+import PostItem from '../components/PostItem.vue'
 
-  const newPost = ref('')
+const newPost = ref('')
 
-  const posts = ref([])
+const posts = ref([])
 
-  onMounted(()=>{
-    const savedPosts = localStorage.getItem('posts');
-    if(savedPosts){
-      posts.value = JSON.parse(savedPosts)
-    }
-    else{
-      posts.value = [
-        {id:1, text:"Мой первый пост",likes:0}
-      ]
-    }
+onMounted(() => {
+  const savedPosts = localStorage.getItem('posts')
+  if (savedPosts) {
+    posts.value = JSON.parse(savedPosts)
+  } else {
+    posts.value = [{ id: 1, text: 'Мой первый пост', likes: 0 }]
+  }
+})
+
+watch(
+  posts,
+  (newPost) => {
+    localStorage.setItem('posts', JSON.stringify(newPost))
+  },
+  { deep: true },
+)
+
+function addPost() {
+  posts.value.unshift({
+    id: Date.now(),
+    text: newPost.value,
+    likes: 0,
   })
 
-  watch(
-    posts, (newPost) =>{
-      localStorage.setItem('posts',JSON.stringify(newPost))
-    },
-    {deep:true}
-  )
+  newPost.value = ''
+}
 
-
-  function addPost(){
-    posts.value.unshift({
-      id: Date.now(),
-      text:newPost.value,
-      likes:0
-    })
-
-    newPost.value = ''
-  }
-
-  function toggleLike(postId){
-    const post = posts.value.find(post => post.id === postId);
-    if (post) {
-      if (post.liked) {
-        post.likes--;
-        post.liked = false;
-      } else {
-        post.likes++;
-        post.liked = true
-      }
+function toggleLike(postId) {
+  const post = posts.value.find((post) => post.id === postId)
+  if (post) {
+    if (post.liked) {
+      post.likes--
+      post.liked = false
+    } else {
+      post.likes++
+      post.liked = true
     }
   }
+}
 
-  function deletePost(postId){
-    posts.value = posts.value.filter(post => post.id !== postId)
-  }
-
-
+function deletePost(postId) {
+  posts.value = posts.value.filter((post) => post.id !== postId)
+}
 </script>
 
 <style scoped>
-.post{
+.post {
+  margin-top: 10px;
+  width: 40%;
+
+  display: flex;
+  justify-content: space-between;
+
   border: 1px solid black;
   padding: 14px;
   border-radius: 10px;
