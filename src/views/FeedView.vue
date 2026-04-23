@@ -12,6 +12,9 @@
     :post="post"
     @like="toggleLike"
     @delete="deletePost"
+    @add-comment="addComment"
+    @edit="editPost"
+    @toggle-edit="toggleEdit"
     />
   </div>
 </template>
@@ -48,7 +51,10 @@
     posts.value.unshift({
       id: Date.now(),
       text:newPost.value,
-      likes:0
+      likes:0,
+      liked:false,
+      comments:[],
+      isEditing:false
     })
 
     newPost.value = ''
@@ -56,9 +62,33 @@
 
   function toggleLike(postId){
     const post = posts.value.find(post => post.id === postId);
-    if(post) post.likes++;
-  }
+    if(post) {
+      post.liked = !post.liked
+      post.likes +=post.liked ? 1:-1
+    }
 
+  }
+  function addComment(postId, commentText){
+  const post = posts.value.find(p => p.id === postId)
+  if(post && commentText.trim()){
+    post.comments.push(commentText)
+  }
+}
+
+function editPost(postId, newText){
+  const post = posts.value.find(p => p.id === postId)
+  if(post){
+    post.text = newText
+    post.isEditing = false
+  }
+}
+
+function toggleEdit(postId){
+  const post = posts.value.find(p => p.id === postId)
+  if(post){
+    post.isEditing = !post.isEditing
+  }
+}
   function deletePost(postId){
     posts.value = posts.value.filter(post => post.id !== postId)
   }
