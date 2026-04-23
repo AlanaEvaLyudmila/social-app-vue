@@ -3,7 +3,7 @@
       <p>{{post.text}}</p>
       <div class="actions">
         <button @click="$emit('like',post.id)">
-          ❤{{post.likes}}
+          {{post.liked ? "❤" : "💥"}}{{post.likes}}
         </button>
       <button @click="$emit('delete',post.id)">
         Удалить
