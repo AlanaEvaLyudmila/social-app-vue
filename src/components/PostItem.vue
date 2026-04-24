@@ -9,6 +9,18 @@
         </button>
         <button @click="$emit('delete', post.id)">Удалить</button>
       </div>
+
+      <div>
+        <input v-model="comment" placeholder="напиши комментарий.."  />
+        <button @click="addComment">отправить</button>
+      </div>
+      <div v-if="post.comments.length > 0">
+        <PostComment
+          v-for="comment in post.comments"
+          :key="comment.id"
+          :comment="comment"
+        />
+      </div>
     </div>
     <div class="buttons">
       <button v-if="!isEditing" @click="toggleEditing">Редактировать</button>
@@ -20,9 +32,20 @@
 
 <script setup>
 import { ref } from 'vue';
+import PostComment from './PostComment.vue';
 
 let isEditing = ref(false)
 let edited = ref('')
+
+let comment= ref('')
+
+function addComment(){
+  post.comments.push({
+    id: Date.now(),
+    text: comment
+  })
+  comment=''
+}
 
 function toggleEditing() {
   isEditing.value = !isEditing.value

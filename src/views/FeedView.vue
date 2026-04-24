@@ -31,7 +31,7 @@
     }
     else{
       posts.value = [
-        {id:1, text:"Мой первый пост",likes:0}
+        {id:1, text:"Мой первый пост",likes:0, comments:[]}
       ]
     }
   })
@@ -48,7 +48,8 @@
     posts.value.unshift({
       id: Date.now(),
       text:newPost.value,
-      likes:0
+      likes:0,
+      comments:[]
     })
 
     newPost.value = ''

@@ -11,6 +11,7 @@ defineProps(['comment']);
 <style>
 .comment {
   border: 1px solid gray;
-  padding: 0.4rem;
+  margin: 0;
+  padding: 0;
 }
 </style>
